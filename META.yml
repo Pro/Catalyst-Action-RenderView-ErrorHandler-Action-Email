@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Catalyst-Action-RenderView-ErrorHandler-Action-Email
-version:            0.02
+version:            0.04
 abstract:           Catalyst ErrorHandler Action for Email
 author:
     - Stefan Profanter <profanter@cpan.org>

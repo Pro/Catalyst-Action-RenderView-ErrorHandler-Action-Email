@@ -5,7 +5,7 @@ use strict;
 use warnings;
 use Moose;
 
-our $VERSION = '0.02';
+our $VERSION = '0.04';
 
 with 'Catalyst::Action::RenderView::ErrorHandler::Action';
 
@@ -46,6 +46,8 @@ Catalyst::Action::RenderView::ErrorHandler::Action::Email - Catalyst ErrorHandle
 				#Use this action
 				type => 'Email',
 	              		id => 'log-email',
+				#Regex to ignore all request paths with PhpMyAdmin or SqlDump init. Regex is case insensitive used.
+				ignorePath => '(PhpMyAdmin|SqlDump)',
 				#This should be a Catalyst::View::Email::Template or Catalyst::View::Email view.
 				view => 'ErrorMail',
 				#This options are copied into $c->stash->{email} for accesing from the view selected above
@@ -87,35 +89,42 @@ Catalyst::Action::RenderView::ErrorHandler::Action::Email - Catalyst ErrorHandle
 	} 
 	
 	#The template may look like:
-	[% USE Dumper %]
+	﻿[% USE Dumper %]
 	<!DOCTYPE html>
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Error Report</title>
 	</head>
-	
+
 	<body>
 	<p>There was a error in yor App:</p>
 	<h4>Requested path:</h4>
 	<p>[% base %][% c.request.path %]</p>
-	
+
 	<h4>Arguments:</h4>
 	[% FOREACH a IN c.request.args %]
-		<p>[% a | html %]</p>
+	   <p>[% a | html %]</p>
 	[% END %]
-	
+
 	<h4>Parameters:</h4>
 	[% Dumper.dump(c.request.parameters) %]
-	
+
 	<h4>User Agent:</h4>
 	<p>[% c.request.user_agent | html %]</p>
-	
+
+	<h4>Referer:</h4>
+	<p>[% c.request.referer | html %]</p>
+
 	<h4>Error messages:</h4>
 	[% FOREACH e IN c.error %]
-		<p>[% e | html %]</p>
+	   <p>[% e | html %]</p>
 	[% END %]
-	
-	
+
+	[% IF c.response.code %]
+	<h4>Error code:</h4>
+	<p>[% c.response.code %]</p>
+	[% END %]
+
 	</body>
 	</html>
 
