@@ -1,0 +1,6 @@
+Revision history for Perl extension Catalyst::Action::RenderView::ErrorHandler::Action::Email.
+
+0.01  Wed Sep 14 18:43:49 2011
+	- original version; created by h2xs 1.23 with options
+		-AXn Catalyst::Action::RenderView::ErrorHandler::Action::Email
+
